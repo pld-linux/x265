@@ -2,7 +2,7 @@ Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
 Version:	0.8
-Release:	0.20140328.1
+Release:	0.20140328.2
 License:	GPL v2+
 Group:		Libraries
 # hg clone -r stable https://bitbucket.org/multicoreware/x265
@@ -59,7 +59,7 @@ Pliki nagłówkowe biblioteki x265.
 Summary:	Static x265 library
 Summary(pl.UTF-8):	Statyczna biblioteka x265
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	libx265-devel = %{version}-%{release}
 
 %description -n libx265-static
 Static x265 library.
