@@ -1,0 +1,12 @@
+--- x265-stable/source/CMakeLists.txt.orig	2014-03-25 13:56:55.000000000 +0100
++++ x265-stable/source/CMakeLists.txt	2014-03-29 07:38:04.923859797 +0100
+@@ -118,9 +118,6 @@
+     if(X64 AND NOT WIN32)
+         add_definitions(-fPIC)
+     endif(X64 AND NOT WIN32)
+-    if(X86 AND NOT X64)
+-        add_definitions(-march=i686)
+-    endif()
+     if(ARM)
+         add_definitions(-march=armv6 -mfloat-abi=hard -mfpu=vfp)
+     endif()
