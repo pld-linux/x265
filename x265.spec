@@ -10,15 +10,19 @@ Group:		Libraries
 Source0:	%{name}-stable.tar.bz2
 # Source0-md5:	928e5fdb3fc8171d9e329e88de4afe03
 Patch0:		%{name}-opt.patch
+Patch1:		%{name}-libdir.patch
 URL:		http://x265.org/
 BuildRequires:	cmake >= 2.8.8
 BuildRequires:	libstdc++-devel
+BuildRequires:	rpmbuild(macros) >= 1.605
 %ifarch %{ix86} %{x8664}
 BuildRequires:	yasm >= 1.2.0
 %endif
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
 ExclusiveArch:	%{ix86} %{x8664} arm
+# needs 64-bit atomic compare and swap
+ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -66,6 +70,7 @@ Statyczna biblioteka x265.
 %prep
 %setup -q -n x265-stable
 %patch0 -p1
+%patch1 -p1
 
 %build
 cd source
