@@ -1,33 +1,11 @@
---- x265-stable/source/CMakeLists.txt.orig	2014-03-29 09:24:16.919161449 +0100
-+++ x265-stable/source/CMakeLists.txt	2014-03-29 09:32:58.249133572 +0100
-@@ -242,8 +242,8 @@
- endif()
- install(TARGETS x265-static
-         RUNTIME DESTINATION bin
--        LIBRARY DESTINATION lib
--        ARCHIVE DESTINATION lib)
-+        LIBRARY DESTINATION lib${LIB_SUFFIX}
-+        ARCHIVE DESTINATION lib${LIB_SUFFIX})
- install(FILES x265.h "${PROJECT_BINARY_DIR}/x265_config.h" DESTINATION include)
- 
- if(CMAKE_RC_COMPILER)
-@@ -280,8 +280,8 @@
-         set_target_properties(x265-shared PROPERTIES VERSION ${X265_LATEST_TAG} SOVERSION ${X265_BUILD})
-         install(TARGETS x265-shared
-                 RUNTIME DESTINATION bin
--                LIBRARY DESTINATION lib
--                ARCHIVE DESTINATION lib)
-+                LIBRARY DESTINATION lib${LIB_SUFFIX}
-+                ARCHIVE DESTINATION lib${LIB_SUFFIX})
-     endif()
- endif()
- 
-@@ -301,7 +301,7 @@
+--- x265-stable/source/CMakeLists.txt~	2014-08-25 12:15:20.000000000 +0200
++++ x265-stable/source/CMakeLists.txt	2014-08-25 12:18:58.463909676 +0200
+@@ -312,7 +312,7 @@
      # Produce a pkg-config file
      configure_file("x265.pc.in" "x265.pc" @ONLY)
      install(FILES       "${CMAKE_CURRENT_BINARY_DIR}/x265.pc"
--            DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
-+            DESTINATION "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}/pkgconfig")
+-            DESTINATION "${CMAKE_INSTALL_PREFIX}/${LIB_INSTALL_DIR}/pkgconfig")
++            DESTINATION "${LIB_INSTALL_DIR}/pkgconfig")
  endif()
  
  if(NOT WIN32)
