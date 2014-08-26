@@ -2,7 +2,7 @@ Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
 Version:	1.3
-Release:	0.20140825.1
+Release:	0.20140825.2
 License:	GPL v2+
 Group:		Libraries
 # hg clone -r stable https://bitbucket.org/multicoreware/x265
