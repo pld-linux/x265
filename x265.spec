@@ -73,16 +73,17 @@ Statyczna biblioteka x265.
 %patch1 -p1
 
 %build
-cd source
-%cmake \
-	-DLIB_INSTALL_DIR=%{_libdir} \
-	.
+install -d source/build
+cd source/build
+%cmake .. \
+	-DLIB_INSTALL_DIR=%{_lib}
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} -C source install \
+%{__make} -C source/build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
