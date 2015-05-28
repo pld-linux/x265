@@ -1,8 +1,10 @@
+%define		rel	3
+%define		subver	20140825
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
 Version:	1.3
-Release:	0.20140825.3
+Release:	0.%{subver}.%{rel}
 License:	GPL v2+
 Group:		Libraries
 # hg clone -r stable https://bitbucket.org/multicoreware/x265
@@ -68,7 +70,8 @@ Static x265 library.
 Statyczna biblioteka x265.
 
 %prep
-%setup -q -n x265-stable
+%setup -qc
+mv %{name}-stable/* .
 %patch0 -p1
 %patch1 -p1
 
@@ -82,7 +85,6 @@ cd source/build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} -C source/build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
