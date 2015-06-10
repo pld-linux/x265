@@ -1,4 +1,4 @@
-%define		rel	1
+%define		rel	2
 %define		subver	20150610
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
@@ -21,7 +21,7 @@ BuildRequires:	yasm >= 1.2.0
 %endif
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
-ExclusiveArch:	%{ix86} %{x8664} arm
+ExclusiveArch:	%{ix86} %{x8664} x32 arm
 # needs 64-bit atomic compare and swap
 ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -77,6 +77,9 @@ mv %{name}-stable/* .
 install -d source/build
 cd source/build
 %cmake .. \
+%ifarch x32
+	-DENABLE_ASSEMBLY=OFF \
+%endif
 	-DLIB_INSTALL_DIR=%{_lib}
 
 %{__make}
