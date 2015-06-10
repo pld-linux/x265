@@ -1,3 +1,11 @@
+#
+# Conditional build:
+%bcond_without	asm	# x86 assembler
+
+%ifnarch %{ix86} %{x8664}
+%undefine	with_asm
+%endif
+
 %define		rel	2
 %define		subver	20150610
 Summary:	H.265/HEVC video encoder
@@ -16,9 +24,7 @@ URL:		http://x265.org/
 BuildRequires:	cmake >= 2.8.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	rpmbuild(macros) >= 1.605
-%ifarch %{ix86} %{x8664}
-BuildRequires:	yasm >= 1.2.0
-%endif
+%{?with_asm:BuildRequires:	yasm >= 1.2.0}
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
 ExclusiveArch:	%{ix86} %{x8664} x32 arm
@@ -77,9 +83,7 @@ mv %{name}-stable/* .
 install -d source/build
 cd source/build
 %cmake .. \
-%ifarch x32
-	-DENABLE_ASSEMBLY=OFF \
-%endif
+	-DENABLE_ASSEMBLY=%{!?with_asm:OFF}%{?with_asm:ON} \
 	-DLIB_INSTALL_DIR=%{_lib}
 
 %{__make}
