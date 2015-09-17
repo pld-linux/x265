@@ -20,6 +20,7 @@ Patch0:		%{name}-opt.patch
 URL:		http://x265.org/
 BuildRequires:	cmake >= 2.8.8
 BuildRequires:	libstdc++-devel
+BuildRequires:	numactl-devel
 BuildRequires:	rpmbuild(macros) >= 1.605
 %{?with_asm:BuildRequires:	yasm >= 1.2.0}
 Requires:	libx265 = %{version}-%{release}
