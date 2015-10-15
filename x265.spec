@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_without	asm	# x86 assembler
 
-%ifnarch %{ix86} %{x8664}
+%ifnarch %{ix86} %{x8664} x32
 %undefine	with_asm
 %endif
 
@@ -17,6 +17,7 @@ Group:		Libraries
 Source0:	http://ftp.videolan.org/pub/videolan/x265/%{name}_%{version}.tar.gz
 # Source0-md5:	72005f2c0acda56913c0eae4562dc5ad
 Patch0:		%{name}-opt.patch
+Patch1:		%{name}-x32.patch
 URL:		http://x265.org/
 BuildRequires:	cmake >= 2.8.8
 BuildRequires:	libstdc++-devel
@@ -75,6 +76,7 @@ Statyczna biblioteka x265.
 %prep
 %setup -q -n %{name}_%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 install -d source/build
