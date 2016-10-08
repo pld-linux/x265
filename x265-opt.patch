@@ -1,14 +1,16 @@
---- x265/source/CMakeLists.txt~	2015-06-10 08:25:49.866524126 +0200
-+++ x265/source/CMakeLists.txt	2015-06-10 08:29:27.775303997 +0200
-@@ -153,11 +153,7 @@ if(GCC)
+--- x265_2.1/source/CMakeLists.txt.orig	2016-10-08 09:30:47.162008549 +0200
++++ x265_2.1/source/CMakeLists.txt	2016-10-08 09:32:59.102007042 +0200
+@@ -177,13 +177,10 @@
      if(NATIVE_BUILD)
          if(INTEL_CXX)
              add_definitions(-xhost)
 -        else()
 -            add_definitions(-march=native)
          endif()
--    elseif(X86 AND NOT X64)
--        add_definitions(-march=i686)
-     endif()
-     if(ARM)
-         add_definitions(-march=armv6 -mfloat-abi=hard -mfpu=vfp)
+     elseif(X86 AND NOT X64)
+         string(FIND "${CMAKE_CXX_FLAGS}" "-march" marchPos)
+         if(marchPos LESS "0")
+-            add_definitions(-march=i686)
+             if(WIN32 AND NOT INTEL_CXX AND NOT CLANG AND
+                CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 6.0 AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
+                 add_definitions(-mpreferred-stack-boundary=2)
