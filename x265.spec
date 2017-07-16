@@ -9,24 +9,24 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	2.4
+Version:	2.5
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 # also at https://bitbucket.org/multicoreware/x265/downloads
 Source0:	http://ftp.videolan.org/pub/videolan/x265/%{name}_%{version}.tar.gz
-# Source0-md5:	ab0986aa5c4465b874de94095b0d0cae
+# Source0-md5:	192e54fa3068b594aa44ab2b703f071d
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 URL:		http://x265.org/
-BuildRequires:	cmake >= 2.8.8
-BuildRequires:	libstdc++-devel
-BuildRequires:	numactl-devel
+BuildRequires:	cmake >= 2.8.11
+BuildRequires:	libstdc++-devel >= 6:4.8
+BuildRequires:	numactl-devel >= 2
 BuildRequires:	rpmbuild(macros) >= 1.605
 %{?with_asm:BuildRequires:	yasm >= 1.2.0}
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
-ExclusiveArch:	%{ix86} %{x8664} x32 arm
+ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} ppc64 ppc64le
 # needs 64-bit atomic compare and swap
 ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -52,8 +52,9 @@ Biblioteka kodowania obrazu H.265/HEVC.
 Summary:	Header files for x265 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki x265
 Group:		Development/Libraries
-Requires:	libstdc++-devel
+Requires:	libstdc++-devel >= 6:4.8
 Requires:	libx265 = %{version}-%{release}
+Requires:	numactl-devel >= 2
 
 %description -n libx265-devel
 Header files for x265 library.
@@ -83,6 +84,8 @@ install -d source/build
 cd source/build
 %cmake .. \
 	-DENABLE_ASSEMBLY=%{!?with_asm:OFF}%{?with_asm:ON} \
+	-DENABLE_HDR10_PLUS=ON \
+	-DENABLE_SHARED=ON \
 	-DLIB_INSTALL_DIR=%{_lib}
 
 %{__make}
@@ -106,15 +109,18 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libx265
 %defattr(644,root,root,755)
 %doc doc/reST/introduction.rst
-%attr(755,root,root) %{_libdir}/libx265.so.116
+%attr(755,root,root) %{_libdir}/libx265.so.130
+%attr(755,root,root) %{_libdir}/libhdr10plus.so
 
 %files -n libx265-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libx265.so
+%{_includedir}/hdr10plus.h
 %{_includedir}/x265.h
 %{_includedir}/x265_config.h
 %{_pkgconfigdir}/x265.pc
 
 %files -n libx265-static
 %defattr(644,root,root,755)
+%{_libdir}/libhdr10plus.a
 %{_libdir}/libx265.a
