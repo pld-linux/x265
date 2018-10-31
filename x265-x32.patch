@@ -1,37 +1,25 @@
---- x265_1.8/source/cmake/CMakeASM_YASMInformation.cmake.orig	2015-09-22 10:10:07.000000000 +0200
-+++ x265_1.8/source/cmake/CMakeASM_YASMInformation.cmake	2015-10-15 19:39:50.517926648 +0200
+--- x265_2.9/source/cmake/CMakeASM_NASMInformation.cmake.orig	2018-10-05 14:14:40.000000000 +0200
++++ x265_2.9/source/cmake/CMakeASM_NASMInformation.cmake	2018-10-29 17:47:25.033029663 +0100
 @@ -9,7 +9,11 @@
      if(APPLE)
-         set(ARGS -f macho64 -m amd64 -DPREFIX)
+         set(ARGS -f macho64 -DPREFIX)
      elseif(UNIX AND NOT CYGWIN)
-+      if("${LIB_SUFFIX}" STREQUAL "x32")
-+        set(ARGS -f elfx32)
-+      else()
-         set(ARGS -f elf64 -m amd64)
-+      endif()
++        if("${CMAKE_SIZEOF_VOID_P}" MATCHES 4)
++            set(ARGS -f elfx32)
++        else()
+         set(ARGS -f elf64)
++        endif()
      else()
-         set(ARGS -f win64 -m amd64)
+         set(ARGS -f win64)
      endif()
-@@ -18,7 +22,11 @@
-     if(APPLE)
-         set(ARGS -f macho -DPREFIX)
-     elseif(UNIX AND NOT CYGWIN)
-+      if("${LIB_SUFFIX}" STREQUAL "x32")
-+        set(ARGS -f elfx32)
-+      else()
-         set(ARGS -f elf32)
-+      endif()
-     else()
-         set(ARGS -f win32 -DPREFIX)
-     endif()
---- x265_1.8/source/CMakeLists.txt.orig	2015-10-15 19:40:25.743090176 +0200
-+++ x265_1.8/source/CMakeLists.txt	2015-10-15 19:49:47.715621913 +0200
-@@ -48,7 +48,7 @@
-     message(STATUS "Detected x86 target processor")
-     set(X86 1)
+--- x265_2.9/source/CMakeLists.txt.orig	2018-10-29 17:47:51.806362689 +0100
++++ x265_2.9/source/CMakeLists.txt	2018-10-29 17:53:08.726359072 +0100
+@@ -50,7 +50,7 @@
      add_definitions(-DX265_ARCH_X86=1)
--    if("${CMAKE_SIZEOF_VOID_P}" MATCHES 8)
-+    if("${CMAKE_SIZEOF_VOID_P}" MATCHES 8 OR "${LIB_SUFFIX}" STREQUAL "x32")
+     if(CMAKE_CXX_FLAGS STREQUAL "-m32")
+         message(STATUS "Detected x86 target processor")
+-    elseif("${CMAKE_SIZEOF_VOID_P}" MATCHES 8)
++    elseif("${CMAKE_SIZEOF_VOID_P}" MATCHES 8 OR "${LIB_SUFFIX}" STREQUAL "x32")
          set(X64 1)
          add_definitions(-DX86_64=1)
-     endif()
+         message(STATUS "Detected x86_64 target processor")

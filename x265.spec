@@ -1,6 +1,8 @@
+# TODO: vmaf
 #
 # Conditional build:
 %bcond_without	asm	# x86 assembler
+%bcond_with	vmaf	# VMAF support [not ready for 1.3.9]
 
 %ifnarch %{ix86} %{x8664} x32
 %undefine	with_asm
@@ -9,13 +11,13 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	2.6
+Version:	2.9
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 # also at https://bitbucket.org/multicoreware/x265/downloads
 Source0:	http://ftp.videolan.org/pub/videolan/x265/%{name}_%{version}.tar.gz
-# Source0-md5:	4d318be1f19b58985432a144bd054572
+# Source0-md5:	693ee4ce7929a59735f441107310f0bb
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 URL:		http://x265.org/
@@ -23,7 +25,8 @@ BuildRequires:	cmake >= 2.8.11
 BuildRequires:	libstdc++-devel >= 6:4.8
 BuildRequires:	numactl-devel >= 2
 BuildRequires:	rpmbuild(macros) >= 1.605
-%{?with_asm:BuildRequires:	yasm >= 1.2.0}
+%{?with_asm:BuildRequires:	nasm >= 2.13.0}
+%{?with_vmaf:BuildRequires:	vmaf-devel}
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
 ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} ppc64 ppc64le
@@ -75,7 +78,7 @@ Static x265 library.
 Statyczna biblioteka x265.
 
 %prep
-%setup -q -n %{name}_v%{version}
+%setup -q -n %{name}_%{version}
 %patch0 -p1
 %patch1 -p1
 
@@ -85,6 +88,7 @@ cd source/build
 %cmake .. \
 	-DENABLE_ASSEMBLY=%{!?with_asm:OFF}%{?with_asm:ON} \
 	-DENABLE_HDR10_PLUS=ON \
+	%{?with_vmaf:-DENABLE_LIBVMAF=ON} \
 	-DENABLE_SHARED=ON \
 	-DLIB_INSTALL_DIR=%{_lib}
 
@@ -109,7 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libx265
 %defattr(644,root,root,755)
 %doc doc/reST/introduction.rst
-%attr(755,root,root) %{_libdir}/libx265.so.146
+%attr(755,root,root) %{_libdir}/libx265.so.165
 %attr(755,root,root) %{_libdir}/libhdr10plus.so
 
 %files -n libx265-devel
