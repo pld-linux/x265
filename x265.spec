@@ -11,13 +11,13 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	2.9
+Version:	3.0
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 # also at https://bitbucket.org/multicoreware/x265/downloads
-Source0:	http://ftp.videolan.org/pub/videolan/x265/%{name}_%{version}.tar.gz
-# Source0-md5:	693ee4ce7929a59735f441107310f0bb
+Source0:	https://download.videolan.org/videolan/x265/%{name}_%{version}.tar.gz
+# Source0-md5:	8ff1780246bb7ac8506239f6129c04ec
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 URL:		http://x265.org/
@@ -96,6 +96,7 @@ cd source/build
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} -C source/build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -113,7 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libx265
 %defattr(644,root,root,755)
 %doc doc/reST/introduction.rst
-%attr(755,root,root) %{_libdir}/libx265.so.165
+%attr(755,root,root) %{_libdir}/libx265.so.169
 %attr(755,root,root) %{_libdir}/libhdr10plus.so
 
 %files -n libx265-devel
