@@ -2,7 +2,7 @@
 #
 # Conditional build:
 %bcond_without	asm	# x86 assembler
-%bcond_with	vmaf	# VMAF support [not ready for 1.3.9]
+%bcond_with	vmaf	# VMAF support [not ready for vmaf-1.3.x as of x265 3.2]
 
 %ifnarch %{ix86} %{x8664} x32
 %undefine	with_asm
@@ -11,13 +11,13 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	3.1.1
+Version:	3.2
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 # also at https://bitbucket.org/multicoreware/x265/downloads
 Source0:	https://download.videolan.org/videolan/x265/%{name}_%{version}.tar.gz
-# Source0-md5:	248a4cdbd93e9a493c78ef0c07863b34
+# Source0-md5:	374e6359a00d17fd82195c02c341c861
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 URL:		http://x265.org/
@@ -114,7 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libx265
 %defattr(644,root,root,755)
 %doc doc/reST/introduction.rst
-%attr(755,root,root) %{_libdir}/libx265.so.176
+%attr(755,root,root) %{_libdir}/libx265.so.179
 %attr(755,root,root) %{_libdir}/libhdr10plus.so
 
 %files -n libx265-devel
