@@ -11,13 +11,13 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	3.2
+Version:	3.2.1
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 # also at https://bitbucket.org/multicoreware/x265/downloads
 Source0:	https://download.videolan.org/videolan/x265/%{name}_%{version}.tar.gz
-# Source0-md5:	374e6359a00d17fd82195c02c341c861
+# Source0-md5:	94808045a34d88a857e5eaf3f68f4bca
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 URL:		http://x265.org/
