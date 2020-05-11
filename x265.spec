@@ -29,7 +29,7 @@ BuildRequires:	rpmbuild(macros) >= 1.605
 %{?with_vmaf:BuildRequires:	vmaf-devel}
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
-ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} ppc64 ppc64le
+ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} ppc64 ppc64le aarch64
 # needs 64-bit atomic compare and swap
 ExcludeArch:	i386 i486
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
