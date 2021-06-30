@@ -22,11 +22,12 @@ Source0:	https://bitbucket.org/multicoreware/x265_git/downloads/%{name}_%{versio
 # Source0-md5:	deb5df5cb2ec17bdbae6ac6bbc3b1eef
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
+Patch2:		%{name}-arm_flags.patch
 URL:		https://www.x265.org/
 BuildRequires:	cmake >= 2.8.11
 BuildRequires:	libstdc++-devel >= 6:4.8
 BuildRequires:	numactl-devel >= 2
-BuildRequires:	rpmbuild(macros) >= 1.605
+BuildRequires:	rpmbuild(macros) >= 2.007
 %{?with_asm:BuildRequires:	nasm >= 2.13.0}
 %{?with_vmaf:BuildRequires:	vmaf-devel}
 Requires:	libx265 = %{version}-%{release}
@@ -83,10 +84,21 @@ Statyczna biblioteka x265.
 %setup -q -n %{name}_%{version}
 %patch0 -p1
 %patch1 -p1
+%ifarch %{arm} aarch64
+%patch2 -p1
+%endif
 
 %build
 install -d source/build
 cd source/build
+%ifarch %{arm} aarch64
+export CFLAGS="%{rpmcflags} -fPIC"
+export CXXFLAGS="%{rpmcxxflags} -fPIC"
+%ifarch %{arm_with_neon}
+export CFLAGS="$CFLAGS -DHAVE_NEON"
+export CXXFLAGS="$CXXFLAGS -DHAVE_NEON"
+%endif
+%endif
 %cmake .. \
 	-DENABLE_ASSEMBLY=%{!?with_asm:OFF}%{?with_asm:ON} \
 	-DENABLE_HDR10_PLUS=ON \
