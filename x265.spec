@@ -1,11 +1,11 @@
 # TODO: vmaf
 #
 # Conditional build:
-%bcond_without	asm	# x86 assembler
+%bcond_without	asm	# assembler
 %bcond_with	vmaf	# VMAF support [not ready for vmaf-1.3.x as of x265 3.2]
 
-%ifnarch %{ix86} %{x8664} x32
-%undefine	with_asm
+%ifarch %{arm}
+%define		with_asm	1
 %endif
 
 Summary:	H.265/HEVC video encoder
@@ -28,7 +28,11 @@ BuildRequires:	cmake >= 2.8.11
 BuildRequires:	libstdc++-devel >= 6:4.8
 BuildRequires:	numactl-devel >= 2
 BuildRequires:	rpmbuild(macros) >= 2.007
-%{?with_asm:BuildRequires:	nasm >= 2.13.0}
+%if %{with asm}
+%ifarch %{ix86} %{x8664} x32
+BuildRequires:	nasm >= 2.13.0
+%endif
+%endif
 %{?with_vmaf:BuildRequires:	vmaf-devel}
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
