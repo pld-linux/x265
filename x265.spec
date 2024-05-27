@@ -102,6 +102,10 @@ export CXXFLAGS="%{rpmcxxflags} -fPIC"
 export CFLAGS="$CFLAGS -DHAVE_NEON"
 export CXXFLAGS="$CXXFLAGS -DHAVE_NEON"
 %endif
+%ifarch aarch64
+export CFLAGS="$CFLAGS -flax-vector-conversions"
+export CXXFLAGS="$CXXFLAGS -flax-vector-conversions"
+%endif
 %endif
 %cmake .. \
 	-DENABLE_ASSEMBLY=%{!?with_asm:OFF}%{?with_asm:ON} \
