@@ -1,0 +1,12 @@
+--- x265_4.0/source/CMakeLists.txt.orig	2024-09-14 17:50:28.924483725 +0200
++++ x265_4.0/source/CMakeLists.txt	2024-09-14 19:01:16.141474576 +0200
+@@ -829,6 +829,9 @@ if(ENABLE_SHARED)
+         target_link_libraries(x265-shared ${EXTRA_LIB})
+     endif()
+ 	 target_link_libraries(x265-shared ${PLATFORM_LIBS})
++    if(ENABLE_LIBVMAF)
++        target_link_libraries(x265-shared ${VMAF})
++    endif()
+     if(SVTHEVC_FOUND)
+         target_link_libraries(x265-shared ${SVT_HEVC_LIBRARY})
+     endif(SVTHEVC_FOUND)

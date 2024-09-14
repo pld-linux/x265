@@ -1,8 +1,9 @@
 # TODO: vmaf
 #
 # Conditional build:
-%bcond_without	asm	# assembler
-%bcond_with	vmaf	# VMAF support [not ready for vmaf-1.3.x as of x265 3.2]
+%bcond_without	asm		# assembler
+%bcond_with	svt_hevc	# SVT-HEVC Encoder support
+%bcond_with	vmaf		# VMAF support
 
 %ifarch %{arm}
 %define		with_asm	1
@@ -11,7 +12,7 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	3.6
+Version:	4.0
 Release:	1
 License:	GPL v2+
 Group:		Libraries
@@ -19,10 +20,11 @@ Group:		Libraries
 #Source0:	https://download.videolan.org/videolan/x265/%{name}_%{version}.tar.gz
 #Source0Download: https://bitbucket.org/multicoreware/x265_git/downloads/
 Source0:	https://bitbucket.org/multicoreware/x265_git/downloads/%{name}_%{version}.tar.gz
-# Source0-md5:	99997ecc8ee4d3575ba7715c759ad3bb
+# Source0-md5:	44e0082a7635eab2488bebd18875a09a
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 Patch2:		%{name}-arm_flags.patch
+Patch3:		%{name}-vmaf.patch
 URL:		https://www.x265.org/
 BuildRequires:	cmake >= 2.8.11
 BuildRequires:	libstdc++-devel >= 6:4.8
@@ -33,6 +35,7 @@ BuildRequires:	rpmbuild(macros) >= 2.007
 BuildRequires:	nasm >= 2.13.0
 %endif
 %endif
+%{?with_svt_hevc:BuildRequires:	svt-hevc-devel}
 %{?with_vmaf:BuildRequires:	vmaf-devel}
 Requires:	libx265 = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
@@ -91,6 +94,7 @@ Statyczna biblioteka x265.
 %ifarch %{arm} aarch64
 %patch2 -p1
 %endif
+%patch3 -p1
 
 %build
 install -d source/build
@@ -112,6 +116,7 @@ export CXXFLAGS="$CXXFLAGS -flax-vector-conversions"
 	-DENABLE_HDR10_PLUS=ON \
 	%{?with_vmaf:-DENABLE_LIBVMAF=ON} \
 	-DENABLE_SHARED=ON \
+	%{?with_svt_hevc:-DENABLE_SVT_HEVC=ON} \
 	-DLIB_INSTALL_DIR=%{_lib}
 
 %{__make}
@@ -136,7 +141,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libx265
 %defattr(644,root,root,755)
 %doc doc/reST/introduction.rst
-%attr(755,root,root) %{_libdir}/libx265.so.209
+%attr(755,root,root) %{_libdir}/libx265.so.212
 %attr(755,root,root) %{_libdir}/libhdr10plus.so
 
 %files -n libx265-devel
