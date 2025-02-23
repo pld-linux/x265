@@ -12,7 +12,7 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	4.0
+Version:	4.1
 Release:	1
 License:	GPL v2+
 Group:		Libraries
@@ -20,7 +20,7 @@ Group:		Libraries
 #Source0:	https://download.videolan.org/videolan/x265/%{name}_%{version}.tar.gz
 #Source0Download: https://bitbucket.org/multicoreware/x265_git/downloads/
 Source0:	https://bitbucket.org/multicoreware/x265_git/downloads/%{name}_%{version}.tar.gz
-# Source0-md5:	44e0082a7635eab2488bebd18875a09a
+# Source0-md5:	f1c3c80248d8574378a4aac8f374f6de
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 Patch2:		%{name}-arm_flags.patch
@@ -141,7 +141,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libx265
 %defattr(644,root,root,755)
 %doc doc/reST/introduction.rst
-%attr(755,root,root) %{_libdir}/libx265.so.212
+%attr(755,root,root) %{_libdir}/libx265.so.215
 %attr(755,root,root) %{_libdir}/libhdr10plus.so
 
 %files -n libx265-devel
