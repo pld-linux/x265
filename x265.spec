@@ -99,22 +99,15 @@ Statyczna biblioteka x265.
 %build
 install -d source/build
 cd source/build
-%ifarch %{arm} aarch64
-export CFLAGS="%{rpmcflags} -fPIC"
-export CXXFLAGS="%{rpmcxxflags} -fPIC"
 %ifarch %{arm_with_neon}
-export CFLAGS="$CFLAGS -DHAVE_NEON"
-export CXXFLAGS="$CXXFLAGS -DHAVE_NEON"
-%endif
-%ifarch aarch64
-export CFLAGS="$CFLAGS -flax-vector-conversions"
-export CXXFLAGS="$CXXFLAGS -flax-vector-conversions"
-%endif
+export CFLAGS="%{rpmcflags} -DHAVE_NEON"
+export CXXFLAGS="%{rpmcxxflags} -DHAVE_NEON"
 %endif
 %cmake .. \
 	-DENABLE_ASSEMBLY=%{!?with_asm:OFF}%{?with_asm:ON} \
 	-DENABLE_HDR10_PLUS=ON \
 	%{?with_vmaf:-DENABLE_LIBVMAF=ON} \
+	-DENABLE_PIC=ON \
 	-DENABLE_SHARED=ON \
 	%{?with_svt_hevc:-DENABLE_SVT_HEVC=ON} \
 	-DLIB_INSTALL_DIR=%{_lib}
