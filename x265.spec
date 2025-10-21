@@ -37,7 +37,7 @@ BuildRequires:	nasm >= 2.13.0
 %endif
 %{?with_svt_hevc:BuildRequires:	svt-hevc-devel}
 %{?with_vmaf:BuildRequires:	vmaf-devel}
-Requires:	libx265 = %{version}-%{release}
+Requires:	libx265%{?_isa} = %{version}-%{release}
 # see CMakeLists.txt, more is probably possible
 ExclusiveArch:	%{ix86} %{x8664} x32 %{arm} ppc64 ppc64le aarch64
 # needs 64-bit atomic compare and swap
@@ -65,9 +65,9 @@ Biblioteka kodowania obrazu H.265/HEVC.
 Summary:	Header files for x265 library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki x265
 Group:		Development/Libraries
-Requires:	libstdc++-devel >= 6:4.8
-Requires:	libx265 = %{version}-%{release}
-Requires:	numactl-devel >= 2
+Requires:	libstdc++-devel%{?_isa} >= 6:4.8
+Requires:	libx265%{?_isa} = %{version}-%{release}
+Requires:	numactl-devel%{?_isa} >= 2
 
 %description -n libx265-devel
 Header files for x265 library.
@@ -79,7 +79,7 @@ Pliki nagłówkowe biblioteki x265.
 Summary:	Static x265 library
 Summary(pl.UTF-8):	Statyczna biblioteka x265
 Group:		Development/Libraries
-Requires:	libx265-devel = %{version}-%{release}
+Requires:	libx265-devel%{?_isa} = %{version}-%{release}
 
 %description -n libx265-static
 Static x265 library.
