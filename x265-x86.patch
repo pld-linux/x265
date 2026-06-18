@@ -1,0 +1,12 @@
+Fix "error: ELF format cannot produce non-PC-relative PLT references"
+--- x265_4.2/source/common/x86/cpu-a.asm.orig	2026-06-17 22:02:21.629745703 +0200
++++ x265_4.2/source/common/x86/cpu-a.asm	2026-06-17 22:02:42.306300355 +0200
+@@ -177,7 +177,7 @@ cglobal safe_intel_cpu_indicator_init
+ %if WIN64
+     lea rax, [intel_cpu_indicator_init]
+     call rax
+-%elif FORMAT_ELF
++%elif FORMAT_ELF && UNIX64
+     call [rel intel_cpu_indicator_init wrt ..plt]
+ %else
+     call intel_cpu_indicator_init

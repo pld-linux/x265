@@ -12,7 +12,7 @@
 Summary:	H.265/HEVC video encoder
 Summary(pl.UTF-8):	Koder obrazu H.265/HEVC
 Name:		x265
-Version:	4.1
+Version:	4.2
 Release:	1
 License:	GPL v2+
 Group:		Libraries
@@ -20,11 +20,12 @@ Group:		Libraries
 #Source0:	https://download.videolan.org/videolan/x265/%{name}_%{version}.tar.gz
 #Source0Download: https://bitbucket.org/multicoreware/x265_git/downloads/
 Source0:	https://bitbucket.org/multicoreware/x265_git/downloads/%{name}_%{version}.tar.gz
-# Source0-md5:	f1c3c80248d8574378a4aac8f374f6de
+# Source0-md5:	0a7edcf495aba9f320047d61647d610b
 Patch0:		%{name}-opt.patch
 Patch1:		%{name}-x32.patch
 Patch2:		%{name}-arm_flags.patch
 Patch3:		%{name}-vmaf.patch
+Patch4:		%{name}-x86.patch
 URL:		https://www.x265.org/
 BuildRequires:	cmake >= 2.8.11
 BuildRequires:	libstdc++-devel >= 6:4.8
@@ -95,6 +96,7 @@ Statyczna biblioteka x265.
 %patch -P2 -p1
 %endif
 %patch -P3 -p1
+%patch -P4 -p1
 
 %build
 install -d source/build
@@ -134,12 +136,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libx265
 %defattr(644,root,root,755)
 %doc doc/reST/introduction.rst
-%attr(755,root,root) %{_libdir}/libx265.so.215
-%attr(755,root,root) %{_libdir}/libhdr10plus.so
+%{_libdir}/libx265.so.216
+%{_libdir}/libhdr10plus.so
 
 %files -n libx265-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libx265.so
+%{_libdir}/libx265.so
 %{_includedir}/hdr10plus.h
 %{_includedir}/x265.h
 %{_includedir}/x265_config.h
