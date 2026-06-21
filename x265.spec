@@ -26,11 +26,12 @@ Patch1:		%{name}-x32.patch
 Patch2:		%{name}-arm_flags.patch
 Patch3:		%{name}-vmaf.patch
 Patch4:		%{name}-x86.patch
+Patch5:		%{name}-includes.patch
 URL:		https://www.x265.org/
 BuildRequires:	cmake >= 2.8.11
 BuildRequires:	libstdc++-devel >= 6:4.8
 BuildRequires:	numactl-devel >= 2
-BuildRequires:	rpmbuild(macros) >= 2.007
+BuildRequires:	rpmbuild(macros) >= 2.047
 %if %{with asm}
 %ifarch %{ix86} %{x8664} x32
 BuildRequires:	nasm >= 2.13.0
@@ -97,6 +98,7 @@ Statyczna biblioteka x265.
 %endif
 %patch -P3 -p1
 %patch -P4 -p1
+%patch -P5 -p1
 
 %build
 install -d source/build
@@ -106,7 +108,7 @@ export CFLAGS="%{rpmcflags} -DHAVE_NEON"
 export CXXFLAGS="%{rpmcxxflags} -DHAVE_NEON"
 %endif
 %cmake .. \
-	-DENABLE_ASSEMBLY=%{!?with_asm:OFF}%{?with_asm:ON} \
+	-DENABLE_ASSEMBLY=%{__ON_OFF asm} \
 	-DENABLE_HDR10_PLUS=ON \
 	%{?with_vmaf:-DENABLE_LIBVMAF=ON} \
 	-DENABLE_PIC=ON \

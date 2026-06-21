@@ -1,0 +1,10 @@
+--- x265_4.2/source/dynamicHDR10/json11/json11.cpp.orig	2026-04-19 08:29:17.000000000 +0200
++++ x265_4.2/source/dynamicHDR10/json11/json11.cpp	2026-06-21 20:14:42.943237341 +0200
+@@ -22,6 +22,7 @@
+ #include "json11.h"
+ #include <cassert>
+ #include <cmath>
++#include <cstdint>
+ #include <cstdlib>
+ #include <cstdio>
+ #include <limits>
